@@ -200,12 +200,12 @@ public class UserService {
             });
     }
 
-    public User registerUser(UserDTO userDTO, String password) {
+    public User registerUser(ManagedUserVM userDTO) {
 
         User newUser = new User();<% if (databaseType === 'cassandra') { %>
         newUser.setId(UUID.randomUUID().toString());<% } %><% if (databaseType === 'cassandra' || databaseType === 'couchbase') { %>
         Set<String> authorities = new HashSet<>();<% } %>
-        String encryptedPassword = passwordEncoder.encode(password);
+        String encryptedPassword = passwordEncoder.encode(userDTO.getPassword());
         newUser.setLogin(userDTO.getLogin());
         // new user gets initially a generated password
         newUser.setPassword(encryptedPassword);
